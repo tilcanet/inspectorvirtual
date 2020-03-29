@@ -1,1 +1,33 @@
+// buscaproducto.php
+<?php
+include ('conexion.php');
 
+$cod = $_GET['ean'];
+
+$consulta = "SELECT * from productos WHERE ean = '$cod'";
+$resultado = $conexion -> query($consulta);
+
+while ($fila=$resultado -> fetch_array()) {
+	$producto[] = array_map('utf8_encode', $fila);
+}
+
+echo json_encode($producto);
+$resultado -> close();
+?>
+/// fin linea de codigo
+-------------------------------------------------------
+/// conexion.php
+<?php
+
+$hostname='localhost';
+$database='maxprecios';
+$username='root';
+$password='';
+
+$conexion=new mysqli($hostname, $username, $password, $database);
+if($conexion->connect_errno){
+	echo "lo sentimos, el sitio web está experimentando problema";
+} 
+
+?>
+/// fin linea de codigo conexion.php
